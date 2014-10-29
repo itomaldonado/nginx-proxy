@@ -54,6 +54,12 @@ server {
 	access_log /proc/self/fd/1;
 
 	location / {
+		{{/* If virtual entry exists, forward to that, else, revert to root...  */}}
+                {{ range $index, $value := $containers }}
+                {{ if $value.Env.VIRTUAL_ENTRY }}
+                rewrite ^/$ /{{ $value.Env.VIRTUAL_ENTRY }} break;
+                {{ end }}
+                {{ end }}
 		proxy_pass http://{{ $host }};
 		proxy_set_header Host $http_host;
 		proxy_set_header X-Real-IP $remote_addr;
