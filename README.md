@@ -14,6 +14,18 @@ Then start any containers you want proxied with an env var `VIRTUAL_HOST=subdoma
 
 Provided your DNS is setup to forward foo.bar.com to the a host running nginx-proxy, the request will be routed to a container with the VIRTUAL_HOST env var set.
 
+### Virtual Entry Point
+
+If you want your containers with a specific VIRTUAL_HOST to re-route root requests to a specific entry point you can set a VIRTUAL_ENTRY env var to select the specific entry point (omiting the first '/').
+
+To start a container with host 'foo.bar.com' to have a specific entry
+
+    $ docker run -e VIRTUAL_HOST=foo.bar.com -e VIRTUAL_ENTRY=foo/bar  ...
+
+This will force nginx to add the following directove to the location / {} block:
+
+    rewrite ^/$ /foo/bar break;
+
 ### Multiple Ports
 
 If your container exposes multiple ports, nginx-proxy will default to the service running on port 80.  If you need to specify a different port, you can set a VIRTUAL_PORT env var to select a different one.  If your container only exposes one port and it has a VIRTUAL_HOST env var set, that port will be selected.
