@@ -22,7 +22,7 @@ To start a container with host 'foo.bar.com' to have a specific entry
 
     $ docker run -e VIRTUAL_HOST=foo.bar.com -e VIRTUAL_ENTRY=foo/bar  ...
 
-This will force nginx to add the following directove to the location / {} block:
+This will force nginx to add the following directive to the location / {} block:
 
     rewrite ^/$ /foo/bar break;
 
