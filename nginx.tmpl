@@ -1,3 +1,7 @@
+http {
+    server_names_hash_bucket_size  128;
+}
+
 map $http_x_forwarded_proto $proxy_x_forwarded_proto {
   default $http_x_forwarded_proto;
   ''      $scheme;
