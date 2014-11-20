@@ -9,6 +9,8 @@ RUN apt-get update
 RUN apt-get install --only-upgrade bash
 RUN apt-get install -y  wget nginx
 
+# Change the server_names_hash_bucket_size line to 128 and add "daemon off;" to /etc/nginx/nginx.conf
+RUN sed 's/server_names_hash_bucket_size [0-9]\+/server_names_hash_bucket_size 128/' /etc/nginx/nginx.conf > /etc/nginx/nginx.conf
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 #fix for long server names
